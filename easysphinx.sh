@@ -1,14 +1,15 @@
 #!/bin/sh
 
-TITLE=manual
-AUTHOR=author
+unset TITLE
+AUTHOR=`whoami`
 VERSION=1.0
 
 usage() {
-    echo "$0 -t title -a author -v version"
+    echo "$0 -t title [-a author] [-v version]"
+    exit 1
 }
 
-OPT=`getopt -q -o t:a:v: -- "$@"`
+OPT=`getopt t:a:v: $*`
 if [ $? != 0 ]; then
     usage
 fi
@@ -24,6 +25,9 @@ do
   esac
 done
 
+if [ ! $TITLE ]; then
+    usage
+fi
 
 sphinx-quickstart <<EOF
 
