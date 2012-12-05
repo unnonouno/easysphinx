@@ -61,3 +61,8 @@ language = 'ja'
 latex_docclass = {'manual': 'jsbook'}
 
 EOF
+
+echo > .gitignore <<EOF
+*~
+build
+EOF
