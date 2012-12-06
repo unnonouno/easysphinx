@@ -10,36 +10,35 @@ p.add_option('-a', '--author', dest='author', type='str', help='author')
 p.add_option('-v', '--version', dest='version', type='str', help='version', default='1.0')
 (options, args) = p.parse_args()
 
-if not options.title:
+if not options.title or not options.author:
     p.print_help()
     sys.exit(1)
 
-
-input='''
-y
-
-%s
-%s
-%s
-
-
-
-
-
-
-
-
-
-y
-
-
-
-
-
-
-''' % (options.title, options.author, options.version)
-proc = Popen(['sphinx-quickstart'], stdin=PIPE, shell=True)
-proc.communicate(input)
+import sphinx.quickstart
+prop = {
+    'path': '.',
+    'sep': True,
+    'dot': '_',
+    'project': options.title,
+    'author': options.author,
+    'version': options.version,
+    'release': options.version,
+    'suffix': '.rst',
+    'master': 'index',
+    'epub': False,
+    'ext_autodoc': False,
+    'ext_doctest': False,
+    'ext_intersphinx': False,
+    'ext_todo': False,
+    'ext_coverage': False,
+    'ext_pngmath': True,
+    'ext_mathjax': False,
+    'ext_ifconfig': False,
+    'ext_viewcode': False,
+    'makefile': True,
+    'batchfile': True,
+}
+sphinx.quickstart.generate(prop)
 
 with open('source/conf.py', 'a') as f:
     f.write('''
