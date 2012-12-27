@@ -2,8 +2,8 @@
  easysphinx
 ============
 
-`easysphinx` is a simple script that generates a new Japanese Sphinx document template more easily than `sphinx-quickstart`.
-It automtically append Japanese configuration to `conf.py`, and generate a simple `.gitignore`.
+``easysphinx`` is a simple script that generates a new Japanese Sphinx document template more easily than ``sphinx-quickstart``.
+It automtically appends Japanese configuration to ``conf.py``, and generates a simple ``.gitignore``.
 
 
 Usage
