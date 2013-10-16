@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+import subprocess
 import sys
 from optparse import OptionParser
 
@@ -60,11 +62,18 @@ prop = {
 }
 sphinx.quickstart.generate(prop)
 
+os.mkdir('exts')
+subprocess.check_call([
+        'wget',
+        'https://bitbucket.org/arjones6/sphinx-numfig/raw/b2345f7d9fabefbd103c31cc0c4c26c68b29ac6a/numfig.py',
+        '-o', 'exts/numfig.py'])
+
 with open('source/conf.py', 'a') as f:
     f.write('''
 # These lines are automatically inserted for Japanese document
 language = 'ja'
 latex_docclass = {'manual': 'jsbook'}
+sys.path.insert(0, os.path.abspath('../exts'))
 ''')
 
 with open('.gitignore', 'w') as f:
