@@ -66,7 +66,7 @@ os.mkdir('exts')
 subprocess.check_call([
         'wget',
         'https://bitbucket.org/arjones6/sphinx-numfig/raw/b2345f7d9fabefbd103c31cc0c4c26c68b29ac6a/numfig.py',
-        '-o', 'exts/numfig.py'])
+        '-O', 'exts/numfig.py'])
 
 with open('source/conf.py', 'a') as f:
     f.write('''
