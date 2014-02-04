@@ -74,6 +74,7 @@ with open('source/conf.py', 'a') as f:
 language = 'ja'
 latex_docclass = {'manual': 'jsbook'}
 sys.path.insert(0, os.path.abspath('../exts'))
+html_theme = 'haiku'
 ''')
 
 with open('.gitignore', 'w') as f:
