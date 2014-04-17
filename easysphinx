@@ -23,53 +23,55 @@
 import os
 import subprocess
 import sys
+import traceback
 from optparse import OptionParser
 
-p = OptionParser()
-p.add_option('-t', '--title', dest='title', type='str', help='document title')
-p.add_option('-a', '--author', dest='author', type='str', help='author')
-p.add_option('-v', '--version', dest='version', type='str', help='version', default='1.0')
-(options, args) = p.parse_args()
+def main():
+    p = OptionParser()
+    p.add_option('-t', '--title', dest='title', type='str', help='document title')
+    p.add_option('-a', '--author', dest='author', type='str', help='author')
+    p.add_option('-v', '--version', dest='version', type='str', help='version', default='1.0')
+    (options, args) = p.parse_args()
 
-if not options.title or not options.author:
-    print '-t and -a options are mandatory'
-    p.print_help()
-    sys.exit(1)
+    if not options.title or not options.author:
+        print '-t and -a options are mandatory'
+        p.print_help()
+        sys.exit(1)
 
-import sphinx.quickstart
-prop = {
-    'path': '.',
-    'sep': True,
-    'dot': '_',
-    'project': options.title,
-    'author': options.author,
-    'version': options.version,
-    'release': options.version,
-    'suffix': '.rst',
-    'master': 'index',
-    'epub': False,
-    'ext_autodoc': False,
-    'ext_doctest': False,
-    'ext_intersphinx': False,
-    'ext_todo': False,
-    'ext_coverage': False,
-    'ext_pngmath': True,
-    'ext_mathjax': False,
-    'ext_ifconfig': False,
-    'ext_viewcode': False,
-    'makefile': True,
-    'batchfile': True,
-}
-sphinx.quickstart.generate(prop)
+    import sphinx.quickstart
+    prop = {
+        'path': '.',
+        'sep': True,
+        'dot': '_',
+        'project': options.title,
+        'author': options.author,
+        'version': options.version,
+        'release': options.version,
+        'suffix': '.rst',
+        'master': 'index',
+        'epub': False,
+        'ext_autodoc': False,
+        'ext_doctest': False,
+        'ext_intersphinx': False,
+        'ext_todo': False,
+        'ext_coverage': False,
+        'ext_pngmath': True,
+        'ext_mathjax': False,
+        'ext_ifconfig': False,
+        'ext_viewcode': False,
+        'makefile': True,
+        'batchfile': True,
+    }
+    sphinx.quickstart.generate(prop)
 
-os.mkdir('exts')
-subprocess.check_call([
-        'wget',
-        'https://bitbucket.org/arjones6/sphinx-numfig/raw/b2345f7d9fabefbd103c31cc0c4c26c68b29ac6a/numfig.py',
-        '-O', 'exts/numfig.py'])
+    os.mkdir('exts')
+    subprocess.check_call([
+            'wget',
+            'https://bitbucket.org/arjones6/sphinx-numfig/raw/b2345f7d9fabefbd103c31cc0c4c26c68b29ac6a/numfig.py',
+            '-O', 'exts/numfig.py'])
 
-with open('source/conf.py', 'a') as f:
-    f.write('''
+    with open('source/conf.py', 'a') as f:
+        f.write('''
 # These lines are automatically inserted for Japanese document
 language = 'ja'
 latex_docclass = {'manual': 'jsbook'}
@@ -77,8 +79,18 @@ sys.path.insert(0, os.path.abspath('../exts'))
 html_theme = 'haiku'
 ''')
 
-with open('.gitignore', 'w') as f:
-    f.write('''
+    with open('.gitignore', 'w') as f:
+        f.write('''
 *~
 build
 ''')
+
+if __name__ == '__main__':
+    try:
+        main()
+    except:
+        _, e, tb = sys.exc_info()
+        sys.stderr.write('\x1b[01;31m%s\n' % e)  # red
+        traceback.print_tb(tb)
+        sys.stderr.write('\x1b[0m')  # clear
+        sys.exit(-1)
